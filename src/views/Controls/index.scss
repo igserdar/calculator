@@ -1,0 +1,50 @@
+@import '../../assets/styles/index.scss';
+
+.controls {
+    display: grid;
+    grid-template-columns: repeat(4, 25%);
+    height: 70%;
+
+    &__item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        border-right: 1px solid rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+
+        &:hover {
+            background: darken($light-color, 10%);
+        }
+
+        &--darker {
+            background: $semi-light;
+        }
+
+        &--orange {
+            color: #F3F3FE;
+            background: $orange;
+
+            &:hover {
+                background: darken($orange, 5%);
+            }
+        }
+
+        &--green {
+            color: #F3F3FE;
+            background: $green;
+
+            &:hover {
+                background: darken($green, 5%);
+            }
+        }
+
+        &:nth-last-child(1) {
+            border-bottom-right-radius: $border-radius;
+        }
+
+        &:nth-last-child(4) {
+            border-bottom-left-radius: $border-radius;
+        }
+    }
+}

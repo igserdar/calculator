@@ -1,0 +1,63 @@
+@import 'https://fonts.googleapis.com/css?family=Quicksand:300';
+
+@mixin calculator-shadow() {
+  -webkit-box-shadow: 0px 20px 120px -20px rgba(0, 0, 0, 0.7);
+  -moz-box-shadow: 0px 20px 120px -20px rgba(0, 0, 0, 0.7);
+  box-shadow: 0px 20px 120px -20px rgba(0, 0, 0, 0.7);
+}
+
+$display-color: #0a1551;
+$border-radius: 0.75rem;
+$light-color: #F3F3FE;
+$semi-light: #C8CEED;
+
+$orange: #FF6100;
+$green: #78BB07;
+
+body {
+  height: 100vh;
+  font-family: "Quicksand", sans-serif;
+  font-size: 24px;
+  background: #ff5f6d;
+  background: -webkit-linear-gradient(to bottom,
+      #ff5f6d,
+      #ffc371);
+  background: linear-gradient(-45deg, #333856, #ffb629, #FF6100, #0099ff, #333856);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: gradient 10s ease infinite;
+  background-size: 400% 400%;
+
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.calculator {
+  width: 25rem;
+  height: 40rem;
+  border-radius: 0.75rem;
+  background: $light-color;
+  @include calculator-shadow();
+
+}
