@@ -152,10 +152,10 @@ export default class Controls extends Component {
           value="-"
           color="controls__item--orange"
         />
-
-        <Button onClick={this.handleClick} name="3" value="3" />
-        <Button onClick={this.handleClick} name="2" value="2" />
         <Button onClick={this.handleClick} name="1" value="1" />
+        <Button onClick={this.handleClick} name="2" value="2" />
+        <Button onClick={this.handleClick} name="3" value="3" />
+
         <Button
           onClick={this.handleClick}
           name="+"
