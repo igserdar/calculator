@@ -13,7 +13,7 @@ export default function Display(props) {
     props.handleCalculation(calculation);
   }, [calculation]);
   useEffect(() => {
-    setCalculation(props.result.toString().split(""));
+    setCalculation([props.result?.toString().split("")]);
   }, [props.result]);
 
   const handleKeyDown = (e) => {
