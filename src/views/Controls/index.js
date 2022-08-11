@@ -7,7 +7,7 @@ export default function Display(props) {
 
   useEffect (() => {
     window.addEventListener("keyup", handleKeyDown);
-  });
+  }, [calculation]);
 
   useEffect(() => {
     props.handleCalculation(calculation);
@@ -21,12 +21,14 @@ export default function Display(props) {
     if (e.key === "Enter") {
       props.handleResult(calculation.join(""));
       setCalculation(props.result.toString().split(""));
+      window.removeEventListener("keyup", handleKeyDown);
     }
 
     if (e.key === "Backspace") {
       let removeLast = [...calculation];
       removeLast.splice(removeLast.length - 1, 1);
       setCalculation(removeLast);
+      window.removeEventListener("keyup", handleKeyDown);
     }
 
     if (
@@ -41,6 +43,7 @@ export default function Display(props) {
         return;
       }
       setCalculation([...calculation, e.key]);
+      window.removeEventListener("keyup", handleKeyDown);
     }
   };
 
