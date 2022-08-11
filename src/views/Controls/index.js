@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import "./index.scss";
+import { getResult } from "../../utils/helpers/calc.helpers";
 
 export default function Display(props) {
   const [calculation, setCalculation] = useState([]);
@@ -62,9 +63,9 @@ export default function Display(props) {
 
         break;
       case "perc":
-        let percentage = [[...calculation].join("") * 0.01];
+        let calc = getResult(calculation.join(""));
+        let percentage = [calc * 0.01];
         setCalculation(percentage);
-
         break;
       case "back":
         let removeLast = [...calculation];

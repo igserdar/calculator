@@ -9,6 +9,7 @@ import { getResult } from "./utils/helpers/calc.helpers";
 const App = () => {
   const [calculation, setCalculation] = useState([]);
   const [result, setResult] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleCalculation = (calculation) => {
     setCalculation(calculation);
@@ -18,6 +19,7 @@ const App = () => {
     if (calculation.length === 0) {
       setResult([]);
     } else {
+      setLoading(true);
       fetch("https://e-solak.jotform.dev/intern-api/calculate-expression", {
         method: "POST",
         headers: {
@@ -28,6 +30,7 @@ const App = () => {
         .then((res) => res.json())
         .then((data) => {
           setResult(data.content);
+          setLoading(false);
         })
         .catch((err) => console.log(err));
     }
@@ -35,7 +38,7 @@ const App = () => {
 
   return (
     <div className="calculator">
-      <Display calculation={calculation} result={result} />
+      <Display loading={loading} calculation={calculation} result={result} />
       <Controls
         handleResult={handleResult}
         handleCalculation={handleCalculation}
