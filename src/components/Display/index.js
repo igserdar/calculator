@@ -1,15 +1,14 @@
-import React, {Component} from "react";
+import React from "react";
 
 import "./index.scss";
-export default class Display extends Component {
-    render() {
-      return (
-        <div className="display">
-          <div className="display__current">
-            {this.props.calculation}
-          </div>
-          <div className="display__result">{this.props.result}</div>
-        </div>
-      );
-    }
-  }
+
+const Display = (props) => {
+  return (
+    <div className="display">
+      <div className="display__current">{props.calculation}</div>
+      <div className="display__result">{props.result}</div>
+    </div>
+  );
+};
+
+export default Display;

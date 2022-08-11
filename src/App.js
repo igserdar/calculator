@@ -1,42 +1,33 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 
 import "./assets/styles/index.scss";
 
 import Display from "./components/Display";
 import Controls from "./views/Controls";
-import {getResult} from "./utils/helpers/calc.helpers"
+import { getResult } from "./utils/helpers/calc.helpers";
 
+const App = () => {
+  const [calculation, setCalculation] = useState([]);
+  const [result, setResult] = useState([]);
 
-class App extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      calculation: [],
-      result: 0,
-    };
-  }
-
-  handleCalculation = (calculation) => {
-    this.setState({
-      calculation,
-    });
+  const handleCalculation = (calculation) => {
+    setCalculation(calculation);
   };
 
-  handleResult = (calculation) => {
-    this.setState({
-      result: getResult(calculation),
-    });
+  const handleResult = (calculation) => {
+    setResult(getResult(calculation));
   };
 
-  render() {
-    return (
-      <div className="calculator">
-        <Display calculation={this.state.calculation} result={this.state.result} />
-        <Controls handleResult={this.handleResult} handleCalculation={this.handleCalculation} result={this.state.result} />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="calculator">
+      <Display calculation={calculation} result={result} />
+      <Controls
+        handleResult={handleResult}
+        handleCalculation={handleCalculation}
+        result={result}
+      />
+    </div>
+  );
+};
 
 export default App;

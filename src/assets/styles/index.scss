@@ -28,7 +28,6 @@ body {
   justify-content: center;
   animation: gradient 10s ease infinite;
   background-size: 400% 400%;
-
 }
 
 @keyframes gradient {
@@ -59,5 +58,4 @@ body {
   border-radius: 0.75rem;
   background: $light-color;
   @include calculator-shadow();
-
 }

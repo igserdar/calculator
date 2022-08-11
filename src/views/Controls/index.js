@@ -1,178 +1,157 @@
-import React, { Component } from "react";
+import React, { useEffect , useState } from "react";
 import Button from "../../components/Button";
 import "./index.scss";
 
-export default class Controls extends Component {
-  constructor() {
-    super();
-    this.state = {
-      calculation: [],
-    };
-  }
+export default function Display(props) {
+  const [calculation, setCalculation] = useState([]);
 
-  handleClick = (e) => {
+  useEffect (() => {
+    window.addEventListener("keyup", handleKeyDown);
+  });
+
+  useEffect(() => {
+    props.handleCalculation(calculation);
+  }, [calculation]);
+
+ useEffect(() => {
+  setCalculation(props.result.toString().split(""));
+  } , [props.calculation]);
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      props.handleResult(calculation.join(""));
+      setCalculation(props.result.toString().split(""));
+    }
+
+    if (e.key === "Backspace") {
+      let removeLast = [...calculation];
+      removeLast.splice(removeLast.length - 1, 1);
+      setCalculation(removeLast);
+    }
+
+    if (
+      (e.key >= 0 && e.key <= 9) ||
+      e.key === "." ||
+      e.key === "*" ||
+      e.key === "/" ||
+      e.key === "+" ||
+      e.key === "-"
+    ) {
+      if (isNaN(e.key) && isNaN(calculation[calculation.length - 1])) {
+        return;
+      }
+      setCalculation([...calculation, e.key]);
+      document.removeEventListener("keydown");
+    }
+  };
+
+  const handleClick = (e) => {
     const value = e.target.getAttribute("data-value");
-    console.log(this.state.calculation);
     switch (value) {
       case "clear":
-        this.setState({ calculation: [] }, () => {
-          this.props.handleCalculation(this.state.calculation);
-          this.props.handleResult(this.state.calculation);
-        });
+        setCalculation([]);
+        props.handleResult([]);
 
         break;
       case "=":
-        if (isNaN(this.state.calculation[this.state.calculation.length - 1])) {
-          break;
-        }
-
-        console.log(this.state.calculation);
-
-        this.props.handleResult(this.state.calculation.join(""));
-
-        this.setState(
-          {
-            calculation: [],
-          },
-          () => {
-            this.setState(
-              {
-                calculation: this.props.result.toString().split(""),
-              },
-              () => {
-                this.props.handleCalculation(this.state.calculation);
-              }
-            );
-          }
-        );
+        props.handleResult(calculation.join(""));
+        setCalculation(props.result.toString().split(""));
 
         break;
       case "posNeg":
-        let posNeg = [[...this.state.calculation].join("") * -1];
-        this.setState(
-          {
-            calculation: posNeg,
-          },
-          () => {
-            this.props.handleCalculation(this.state.calculation.join(""));
-          }
-        );
+        let posNeg = [[...calculation].join("") * -1];
+        setCalculation(posNeg);
 
         break;
       case "perc":
-        let percentage = [[...this.state.calculation].join("") * 0.01];
-
-        this.setState(
-          {
-            calculation: percentage,
-          },
-          () => {
-            this.props.handleCalculation(this.state.calculation.join(""));
-          }
-        );
+        let percentage = [[...calculation].join("") * 0.01];
+        setCalculation(percentage);
 
         break;
       case "back":
-        let removeLast = [...this.state.calculation];
+        let removeLast = [...calculation];
         removeLast.splice(removeLast.length - 1, 1);
+        setCalculation(removeLast);
 
-        this.setState(
-          {
-            calculation: removeLast,
-          },
-          () => {
-            this.props.handleCalculation(this.state.calculation.join(""));
-          }
-        );
         break;
 
       default:
-        if (
-          isNaN(value) &&
-          isNaN(this.state.calculation[this.state.calculation.length - 1])
-        ) {
+        if (isNaN(value) && isNaN(calculation[calculation.length - 1])) {
           break;
         }
-        this.setState(
-          { calculation: [...this.state.calculation, value] },
-          () => {
-            this.props.handleCalculation(this.state.calculation.join(""));
-          }
-        );
-
+        setCalculation([...calculation, value]);
         break;
     }
   };
 
-  render() {
-    return (
-      <div className="controls">
-        <Button
-          onClick={this.handleClick}
-          name="%"
-          value="perc"
-          color="controls__item--darker"
-        />
+  return (
+    <div className="controls">
+      <Button
+        onClick={handleClick}
+        name="%"
+        value="perc"
+        color="controls__item--darker"
+      />
 
-        <Button
-          onClick={this.handleClick}
-          name="+/-"
-          value="posNeg"
-          color="controls__item--darker"
-        />
-        <Button
-          onClick={this.handleClick}
-          name="C"
-          value="clear"
-          color="controls__item--darker"
-        />
-        <Button
-          onClick={this.handleClick}
-          name="/"
-          value="/"
-          color="controls__item--orange"
-        />
+      <Button
+        onClick={handleClick}
+        name="+/-"
+        value="posNeg"
+        color="controls__item--darker"
+      />
+      <Button
+        onClick={handleClick}
+        name="C"
+        value="clear"
+        color="controls__item--darker"
+      />
+      <Button
+        onClick={handleClick}
+        name="/"
+        value="/"
+        color="controls__item--orange"
+      />
 
-        <Button onClick={this.handleClick} name="7" value="7" />
-        <Button onClick={this.handleClick} name="8" value="8" />
-        <Button onClick={this.handleClick} name="9" value="9" />
-        <Button
-          onClick={this.handleClick}
-          name="x"
-          value="*"
-          color="controls__item--orange"
-        />
+      <Button onClick={handleClick} name="7" value="7" />
+      <Button onClick={handleClick} name="8" value="8" />
+      <Button onClick={handleClick} name="9" value="9" />
+      <Button
+        onClick={handleClick}
+        name="x"
+        value="*"
+        color="controls__item--orange"
+      />
 
-        <Button onClick={this.handleClick} name="4" value="4" />
-        <Button onClick={this.handleClick} name="5" value="5" />
-        <Button onClick={this.handleClick} name="6" value="6" />
-        <Button
-          onClick={this.handleClick}
-          name="-"
-          value="-"
-          color="controls__item--orange"
-        />
-        <Button onClick={this.handleClick} name="1" value="1" />
-        <Button onClick={this.handleClick} name="2" value="2" />
-        <Button onClick={this.handleClick} name="3" value="3" />
+      <Button onClick={handleClick} name="4" value="4" />
+      <Button onClick={handleClick} name="5" value="5" />
+      <Button onClick={handleClick} name="6" value="6" />
+      <Button
+        onClick={handleClick}
+        name="-"
+        value="-"
+        color="controls__item--orange"
+      />
+      <Button onClick={handleClick} name="1" value="1" />
+      <Button onClick={handleClick} name="2" value="2" />
+      <Button onClick={handleClick} name="3" value="3" />
 
-        <Button
-          onClick={this.handleClick}
-          name="+"
-          value="+"
-          color="controls__item--orange"
-        />
+      <Button
+        onClick={handleClick}
+        name="+"
+        value="+"
+        color="controls__item--orange"
+      />
 
-        <Button onClick={this.handleClick} name="0" value="0" />
-        <Button onClick={this.handleClick} name="." value="." />
-        <Button onClick={this.handleClick} name="&#8592;" value="back" />
-        <Button
-          onClick={this.handleClick}
-          name="="
-          value="="
-          color="controls__item--green"
-        />
-      </div>
-    );
-  }
+      <Button onClick={handleClick} name="0" value="0" />
+      <Button onClick={handleClick} name="." value="." />
+      <Button onClick={handleClick} name="&#8592;" value="back" />
+      <Button
+        id="equal"
+        onClick={handleClick}
+        name="="
+        value="="
+        color="controls__item--green"
+      />
+    </div>
+  );
 }
