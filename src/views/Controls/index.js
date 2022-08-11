@@ -41,7 +41,6 @@ export default function Display(props) {
         return;
       }
       setCalculation([...calculation, e.key]);
-      document.removeEventListener("keydown");
     }
   };
 
