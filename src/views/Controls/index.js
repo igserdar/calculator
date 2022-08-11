@@ -1,26 +1,24 @@
-import React, { useEffect , useState } from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../components/Button";
 import "./index.scss";
 
 export default function Display(props) {
   const [calculation, setCalculation] = useState([]);
 
-  useEffect (() => {
+  useEffect(() => {
     window.addEventListener("keyup", handleKeyDown);
   }, [calculation]);
 
   useEffect(() => {
     props.handleCalculation(calculation);
   }, [calculation]);
-
- useEffect(() => {
-  setCalculation(props.result.toString().split(""));
-  } , [props.calculation]);
+  useEffect(() => {
+    setCalculation(props.result.toString().split(""));
+  }, [props.result]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       props.handleResult(calculation.join(""));
-      setCalculation(props.result.toString().split(""));
       window.removeEventListener("keyup", handleKeyDown);
     }
 
@@ -57,8 +55,6 @@ export default function Display(props) {
         break;
       case "=":
         props.handleResult(calculation.join(""));
-        setCalculation(props.result.toString().split(""));
-
         break;
       case "posNeg":
         let posNeg = [[...calculation].join("") * -1];
