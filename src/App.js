@@ -15,7 +15,22 @@ const App = () => {
   };
 
   const handleResult = (calculation) => {
-    setResult(getResult(calculation));
+    if (calculation.length === 0) {
+      setResult([]);
+    } else {
+      fetch("https://e-solak.jotform.dev/intern-api/calculate-expression", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ expression: calculation }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setResult(data.content);
+        })
+        .catch((err) => console.log(err));
+    }
   };
 
   return (
